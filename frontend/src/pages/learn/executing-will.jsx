@@ -17,7 +17,7 @@ export default function ExecutingWill() {
       </div>
 
       <article className="prose prose-lg max-w-none">
-        <h1 className="text-4xl font-bold text-[#212529] mb-8">Executing the Will: A Guide to Settling Your Loved One's Estate</h1>
+        <h1 className="text-4xl font-bold text-[#212529] mb-8">How to Carry Out Your Loved One’s Will: A Step-by-Step Guide</h1>
         
         <div className="bg-white shadow-md rounded-lg p-6 mb-8">
           <h2 className="text-2xl font-semibold text-[#212529] mb-4">What Does It Mean to Execute a Will?</h2>

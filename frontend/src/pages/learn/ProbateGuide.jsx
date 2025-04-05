@@ -51,7 +51,7 @@ export default function ProbateGuide() {
           animate="visible"
           variants={fadeIn}
         >
-          <h1 className="text-4xl font-bold text-[#212529] mb-8">Probating an Estate Without a Will</h1>
+          <h1 className="text-4xl font-bold text-[#212529] mb-8">Probating an Estate Without a Will: A Step-by-Step Guide</h1>
           
           {/* Hero Banner Image */}
           <div className="relative h-64 rounded-xl overflow-hidden mb-8">

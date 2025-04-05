@@ -287,10 +287,17 @@ const sections = [
         title: "Financial Accounts and Mail",
         items: [
           "Bank Accounts",
-          "Credit & Debit Cards",
           "Mail",
-          "Digital Accounts",
-          "Credit Bureaus"
+          {
+            title: "Identity and Digital Security",
+            isDropdown: true,
+            items: [
+              "Credit & Debit Cards",
+              "Credit Bureaus",
+              "Digital Accounts"
+            ]
+          }
+          
         ]
       },
       {
@@ -318,10 +325,10 @@ const sections = [
         items: [
           "Email Accounts",
           "Social Media",
-          "Life Insurance (Notification)",
+          "Life Insurance",
           "Long-Term Care Insurance",
           "Financial Companies",
-          "DDNC List",
+          "Deceased Do Not Contact (DDNC) List",
           "Vehicle(s)",
           "Cell Phone",
           "Online Subscriptions",
@@ -330,9 +337,9 @@ const sections = [
         ]
       },
       {
-        title: "Executing Decedent's Will or Probating Funds and Assets",
+        title: "Managing a Loved One's Will or Estate",
         items: [
-          "Executing the Will",
+          "Will",
           "No Will — Probate"
         ]
       },
@@ -349,7 +356,7 @@ const sections = [
           "Life Insurance (Claim Filing)",
           "Pensions & Retirement",
           "Annuities",
-          "Veterans Administration",
+          "Veteran Affairs",
           "Investments",
           "One-Time Social Security Payment",
           "Monthly Social Security Benefits"
@@ -456,7 +463,7 @@ const secondarySubheaderMap = {
   "State & Local Aid": "Applying for State or Local Funeral Assistance",
   "Bereavement Grants & Stipends": "Exploring Bereavement Grants and Burial Stipends",
   "Federal Employee Benefits": "Accessing Benefits for Federal Employees and Retirees",
-  "Veterans Benefits": "Applying for Veterans Funeral and Burial Benefits",
+  "Veteran Affairs": "Applying for Veterans Funeral and Burial Benefits",
   "Employer or Union Help": "Accessing Benefits from Employers or Unions",
   "Meal Support": "Coordinating Meal Support After a Loss",
   
@@ -481,20 +488,20 @@ const secondarySubheaderMap = {
   "Life Insurance (Notification)": "Notifying Life Insurance Providers",
   "Long-Term Care Insurance": "Canceling Long-Term Care Insurance Policies",
   "Financial Companies": "Contacting Financial Institutions",
-  "DDNC List": "Adding Your Loved One to the Do Not Contact List",
+  "Deceased Do Not Contact (DDNC) List": "Handling a Loved One's Vehicle After Their Passing",
   "Vehicle(s)": "Transferring or Disposing of a Loved One's Vehicle",
   "Cell Phone": "Canceling or Transferring Cell Phone Accounts",
   "Online Subscriptions": "Canceling Online Subscriptions and Apps",
   "Physical Subscriptions": "Stopping Mail Subscriptions and Deliveries",
   "Bills and Accounts to Notify": "Notifying Service Providers and Utilities",
-  "Executing the Will": "How to Carry Out Your Loved One's Will",
+  "Will": "How to Carry Out Your Loved One's Will",
   "No Will — Probate": "Probating an Estate Without a Will",
   "Assets Inventory": "Taking Inventory of All Assets",
   "Insurance Claims": "Filing a General Insurance Claim",
   "Life Insurance (Claim Filing)": "Filing a Life Insurance Claim",
   "Pensions & Retirement": "Applying for Pensions and Retirement Benefits",
   "Annuities": "Claiming Annuity Benefits",
-  "Veterans Administration": "Applying for VA Survivor Benefits",
+  "Veteran Affairs": "Applying for VA Survivor Benefits",
   "Investments": "Claiming Investment or Brokerage Accounts",
   "One-Time Social Security Payment": "Applying for the One-Time SSA Death Payment",
   "Monthly Social Security Benefits": "Applying for Monthly Social Security Survivor Benefits",
@@ -513,7 +520,7 @@ const fullPageUrlMap = {
   "Burial, Cremation, or Donation": "/learn/understanding-remains-options",
   "Body Transportation": "/learn/body-transportation",
   "Home Care": "/learn/home-care",
-  "Executing the Will": "/learn/executing-will",
+  "Will": "/learn/executing-will",
   "No Will — Probate": "/learn/probate-guide",
   "Important Papers": "/learn/important-documents",
   "Write an Obituary": "/learn/write-obituary"
@@ -590,6 +597,17 @@ export default function ChecklistCopy() {
             category.subtasks.forEach((task) => {
               if (!task.isHeader) {
                 // Get details for this task from the database
+                const details = getItemDetails(sectionId, categoryTitle, task.title);
+                if (details) {
+                  content[task.id] = details;
+                  
+                  // Add fullPageUrl if it exists in the mapping
+                  if (fullPageUrlMap[task.title]) {
+                    content[task.id].fullPageUrl = fullPageUrlMap[task.title];
+                  }
+                }
+              } else if (task.isDropdownItem) {
+                // This is a dropdown item - try to find it in database
                 const details = getItemDetails(sectionId, categoryTitle, task.title);
                 if (details) {
                   content[task.id] = details;
@@ -2160,7 +2178,7 @@ const PopupContentRenderer = ({ content, taskId }) => {
       // Section 2: Applying for Benefits
       "Insurance Claims": <ShieldCheckIcon className="w-5 h-5 text-indigo-600" />,
       "Pensions & Retirement": <BanknotesIcon className="w-5 h-5 text-indigo-600" />,
-      "Veterans Administration": <BuildingOfficeIcon className="w-5 h-5 text-indigo-600" />,
+      "Veteran Affairs": <BuildingOfficeIcon className="w-5 h-5 text-indigo-600" />,
       "Investments": <CurrencyDollarIcon className="w-5 h-5 text-indigo-600" />,
       "Life Insurance (Claim Filing)": <ShieldCheckIcon className="w-5 h-5 text-indigo-600" />,
       
