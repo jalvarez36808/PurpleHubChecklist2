@@ -1,0 +1,32 @@
+backend:
+  name: git-gateway
+  branch: main # Branch to update
+
+# These lines should point to your built site location
+publish_mode: editorial_workflow
+media_folder: "dist/images/uploads" # Media will be stored in the repo under dist/images/uploads
+public_folder: "/images/uploads" # The src attribute for uploaded media
+
+collections:
+  - name: "learn" # Used in routes, e.g., /admin/collections/learn
+    label: "Learning Resources" # Used in the UI
+    folder: "src/pages/learn" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    fields: # The fields for each document
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string", pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Must use kebab-case format"]}
+      - {label: "Featured Image", name: "featuredImage", widget: "image", required: false}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Body", name: "body", widget: "markdown"}
+      
+  - name: "supportPages" # Used in routes, e.g., /admin/collections/blog
+    label: "Support Pages" # Used in the UI
+    folder: "src/pages/support" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    fields: # The fields for each document
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string", pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Must use kebab-case format"]}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Body", name: "body", widget: "markdown"} 

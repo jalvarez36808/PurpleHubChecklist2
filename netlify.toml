@@ -1,0 +1,69 @@
+[build]
+  base = "frontend"
+  publish = "dist"
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NETLIFY_VISUAL_EDITING = "true"
+
+[dev]
+  framework = "vite"
+  command = "npm run dev"
+  port = 8888
+  targetPort = 3001
+  autoLaunch = true
+  functionsPort = 8888
+  publish = "dist"
+
+# Add path rewrites to enable Netlify's Visual Editor
+[[redirects]]
+  from = "/__netlify-edit/*"
+  to = "/.netlify/functions/visual-editor/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Admin development route - allows access to admin panel in development
+[[redirects]]
+  from = "/dev-admin/*"
+  to = "/index.html"
+  status = 200
+  conditions = {Role = ["admin", "editor"], Development = "true"}
+
+# Proxy API requests to the backend in development
+[[redirects]]
+  from = "/api/*"
+  to = "http://localhost:5001/api/:splat"
+  status = 200
+  force = false
+  conditions = {Role = ["admin", "editor"]}
+
+# Development administration redirect - for development admin functions
+[[redirects]]
+  from = "/api/dev-admin/*"
+  to = "http://localhost:5001/api/admin/:splat"
+  status = 200
+  force = false
+  conditions = {Development = "true"}
+
+# Force HTTPS
+[[redirects]]
+  from = "http://*"
+  to = "https://:splat"
+  status = 301
+  force = true
+
+# Add security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://rsms.me; img-src 'self' data: blob:; font-src 'self' https://rsms.me; connect-src 'self' https://baetxwaiocvsxlqtqjpk.supabase.co;"

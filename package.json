@@ -1,0 +1,19 @@
+{
+  "name": "purple-hub",
+  "version": "1.0.0",
+  "description": "Support platform for those who have lost loved ones",
+  "scripts": {
+    "prestart": "npm install",
+    "frontend": "cd frontend && npm run dev",
+    "backend": "cd backend && npm run dev",
+    "dev": "concurrently --kill-others-on-fail \"npm run backend\" \"npm run frontend\"",
+    "clean": "taskkill /F /IM node.exe || true"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "supabase": "^2.19.7"
+  }
+}
